@@ -10,34 +10,8 @@ NC='\033[0m' # No Color
 
 echo -e "${GREEN}Instalando orgmcron...${NC}"
 
-# Detectar arquitectura y OS
-ARCH=$(uname -m)
-OS=$(uname -s | tr '[:upper:]' '[:lower:]')
-
-case $ARCH in
-    x86_64)
-        ARCH="amd64"
-        ;;
-    aarch64|arm64)
-        ARCH="arm64"
-        ;;
-    *)
-        echo -e "${RED}Arquitectura no soportada: $ARCH${NC}"
-        exit 1
-        ;;
-esac
-
-# Obtener la última versión desde GitHub
-echo -e "${YELLOW}Obteniendo última versión...${NC}"
-LATEST_VERSION=$(curl -s https://api.github.com/repos/osmargm1202/orgmcron/releases/latest | grep '"tag_name":' | sed -E 's/.*"([^"]+)".*/\1/' || echo "latest")
-
-if [ -z "$LATEST_VERSION" ] || [ "$LATEST_VERSION" = "latest" ]; then
-    echo -e "${YELLOW}No se pudo obtener la versión, usando 'latest'${NC}"
-    LATEST_VERSION="latest"
-fi
-
 # URL del binario
-BINARY_URL="https://github.com/osmargm1202/orgmcron/releases/${LATEST_VERSION}/download/orgmcron-${OS}-${ARCH}"
+BINARY_URL="https://raw.githubusercontent.com/osmargm1202/orgmcron/master/orgmcron"
 
 # Directorio de destino
 INSTALL_DIR="$HOME/.local/bin"
